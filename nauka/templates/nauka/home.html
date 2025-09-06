@@ -1,0 +1,9 @@
+<h1>Listy słówek</h1>
+<ul>
+  {% for lista in listy %}
+    <li><a href="{% url 'lista_slowek' lista.id %}">{{ lista.nazwa }}</a></li>
+  {% empty %}
+    <li>Brak list.</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'nowa_lista' %}">➕ Dodaj nową listę</a>

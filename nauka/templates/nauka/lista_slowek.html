@@ -1,0 +1,19 @@
+<h1>Lista: {{ lista.nazwa }}</h1>
+
+<h2>Słówka</h2>
+<ul>
+  {% for slowko in slowka %}
+    <li>{{ slowko.angielski }} – {{ slowko.polski }}</li>
+  {% empty %}
+    <li>Brak słówek.</li>
+  {% endfor %}
+</ul>
+
+<h2>Dodaj nowe słówko</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Dodaj</button>
+</form>
+
+<a href="{% url 'home' %}">⬅ Powrót</a>

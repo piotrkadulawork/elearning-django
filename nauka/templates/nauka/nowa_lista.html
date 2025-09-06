@@ -1,0 +1,7 @@
+<h1>Dodaj nową listę</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Zapisz</button>
+</form>
+<a href="{% url 'home' %}">⬅ Powrót</a>
