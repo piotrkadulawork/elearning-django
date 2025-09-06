@@ -1,7 +1,15 @@
 <h1>Listy słówek</h1>
 <ul>
   {% for lista in listy %}
-    <li><a href="{% url 'lista_slowek' lista.id %}">{{ lista.nazwa }}</a></li>
+    <li>
+      <a href="{% url 'lista_slowek' lista.id %}">{{ lista.nazwa }}
+      <form action="{% url 'usun_liste' lista.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" onclick="return confirm('Na pewno usunąć tę listę wraz ze słówkami?')">
+          Usuń
+        </button>
+      </form>  
+      </a></li>
   {% empty %}
     <li>Brak list.</li>
   {% endfor %}

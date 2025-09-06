@@ -54,3 +54,10 @@ def edytuj_slowko(request, slowko_id):
     else:
         form = SlowkoForm(instance=slowko)
     return render(request, 'nauka/edytuj_slowko.html', {'form': form, 'slowko': slowko})
+
+def usun_liste(request, lista_id):
+    lista = get_object_or_404(Lista, id=lista_id)
+    if request.method == 'POST':
+        lista.delete()  # dzięki on_delete=models.CASCADE usunie też wszystkie słówka
+        return redirect('home')
+    return HttpResponseForbidden("Nie można usuwać list metodą GET")
