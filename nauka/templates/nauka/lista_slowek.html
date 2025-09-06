@@ -3,7 +3,16 @@
 <h2>Słówka</h2>
 <ul>
   {% for slowko in slowka %}
-    <li>{{ slowko.angielski }} – {{ slowko.polski }}</li>
+    <li>
+      {{ slowko.angielski }} – {{ slowko.polski }}
+      <form action="{% url 'usun_slowko' slowko.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" onclick="return confirm('Na pewno usunąć to słówko?')">
+          Delete
+        </button>
+      </form>
+      <a href="{% url 'edytuj_slowko' slowko.id %}">Edytuj</a>
+    </li>
   {% empty %}
     <li>Brak słówek.</li>
   {% endfor %}

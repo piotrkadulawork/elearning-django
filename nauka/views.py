@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Lista, Slowko
 from .forms import ListaForm, SlowkoForm
+from django.http import HttpResponseForbidden
 
 def home(request):
     listy = Lista.objects.all()
@@ -33,3 +34,23 @@ def lista_slowek(request, lista_id):
         'slowka': slowka,
         'form': form
     })
+
+def usun_slowko(request, slowko_id):
+    slowko = get_object_or_404(Slowko, id=slowko_id)
+    if request.method == 'POST':
+        lista_id = slowko.lista.id  # zapamiętujemy listę, żeby wrócić po usunięciu
+        slowko.delete()
+        return redirect('lista_slowek', lista_id=lista_id)
+    # jeżeli ktoś wejdzie GET-em, to nie usuwamy — tylko blokujemy
+    return HttpResponseForbidden("Nie można usuwać słówek metodą GET")
+
+def edytuj_slowko(request, slowko_id):
+    slowko = get_object_or_404(Slowko, id=slowko_id)
+    if request.method == 'POST':
+        form = SlowkoForm(request.POST, instance=slowko)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_slowek', lista_id=slowko.lista.id)
+    else:
+        form = SlowkoForm(instance=slowko)
+    return render(request, 'nauka/edytuj_slowko.html', {'form': form, 'slowko': slowko})
