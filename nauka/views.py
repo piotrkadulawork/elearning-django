@@ -61,3 +61,14 @@ def usun_liste(request, lista_id):
         lista.delete()  # dzięki on_delete=models.CASCADE usunie też wszystkie słówka
         return redirect('home')
     return HttpResponseForbidden("Nie można usuwać list metodą GET")
+
+def edytuj_liste(request, lista_id):
+    lista = get_object_or_404(Lista, id=lista_id)
+    if request.method == 'POST':
+        form = ListaForm(request.POST, instance=lista)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ListaForm(instance=lista)
+    return render(request, 'nauka/edytuj_liste.html', {'form': form, 'lista': lista})

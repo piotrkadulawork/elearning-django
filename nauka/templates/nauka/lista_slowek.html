@@ -11,6 +11,7 @@
           onclick="return confirm('Na pewno usunąć całą listę i wszystkie słówka?')">
     Usuń tę listę
   </button>
+  <a href="{% url 'home' %}" class="btn btn-secondary">⬅ Powrót</a>
 </form>
 
 <h2>Słówka</h2>
@@ -38,6 +39,6 @@
   {{ form.as_p }}
   <button type="submit" class="btn btn-primary">Dodaj</button>
 </form>
-
-<a href="{% url 'home' %}" class="btn btn-link mt-3">⬅ Powrót</a>
+</br>
+<a href="{% url 'home' %}" class="btn btn-secondary">⬅ Powrót</a>
 {% endblock %}
