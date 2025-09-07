@@ -1,17 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Listy słówek{% endblock %}
+
+{% block content %}
 <h1>Listy słówek</h1>
-<ul>
+<ul class="list-group">
   {% for lista in listy %}
-    <li>
-      <a href="{% url 'lista_slowek' lista.id %}">{{ lista.nazwa }}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="{% url 'lista_slowek' lista.id %}">{{ lista.nazwa }}</a>
       <form action="{% url 'usun_liste' lista.id %}" method="post" style="display:inline;">
         {% csrf_token %}
-        <button type="submit" onclick="return confirm('Na pewno usunąć tę listę wraz ze słówkami?')">
+        <button type="submit" class="btn btn-danger btn-sm"
+                onclick="return confirm('Na pewno usunąć tę listę wraz ze słówkami?')">
           Usuń
         </button>
-      </form>  
-      </a></li>
+      </form>
+    </li>
   {% empty %}
-    <li>Brak list.</li>
+    <li class="list-group-item">Brak list.</li>
   {% endfor %}
 </ul>
-<a href="{% url 'nowa_lista' %}">➕ Dodaj nową listę</a>
+
+<a href="{% url 'nowa_lista' %}" class="btn btn-primary mt-3">➕ Dodaj nową listę</a>
+{% endblock %}

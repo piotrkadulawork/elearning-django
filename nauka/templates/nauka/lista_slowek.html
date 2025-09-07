@@ -1,28 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Lista: {{ lista.nazwa }}{% endblock %}
+
+{% block content %}
 <h1>Lista: {{ lista.nazwa }}</h1>
 
+<form action="{% url 'usun_liste' lista.id %}" method="post" class="mb-3">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger"
+          onclick="return confirm('Na pewno usunąć całą listę i wszystkie słówka?')">
+    Usuń tę listę
+  </button>
+</form>
+
 <h2>Słówka</h2>
-<ul>
+<ol class="list-group list-group-numbered">
   {% for slowko in slowka %}
-    <li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
       {{ slowko.angielski }} – {{ slowko.polski }}
-      <form action="{% url 'usun_slowko' slowko.id %}" method="post" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit" onclick="return confirm('Na pewno usunąć to słówko?')">
-          Delete
-        </button>
-      </form>
-      <a href="{% url 'edytuj_slowko' slowko.id %}">Edytuj</a>
+      <div>
+        <form action="{% url 'usun_slowko' slowko.id %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger btn-sm"
+                  onclick="return confirm('Na pewno usunąć to słówko?')">Usuń</button>
+        </form>
+        <a href="{% url 'edytuj_slowko' slowko.id %}" class="btn btn-secondary btn-sm">Edytuj</a>
+      </div>
     </li>
   {% empty %}
-    <li>Brak słówek.</li>
+    <li class="list-group-item">Brak słówek.</li>
   {% endfor %}
-</ul>
+</ol>
 
-<h2>Dodaj nowe słówko</h2>
+<h2 class="mt-4">Dodaj nowe słówko</h2>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Dodaj</button>
+  <button type="submit" class="btn btn-primary">Dodaj</button>
 </form>
 
-<a href="{% url 'home' %}">⬅ Powrót</a>
+<a href="{% url 'home' %}" class="btn btn-link mt-3">⬅ Powrót</a>
+{% endblock %}
